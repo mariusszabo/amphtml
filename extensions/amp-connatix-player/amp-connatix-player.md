@@ -13,12 +13,11 @@
   3. And remove this comment! (no empty lines before "---")
 -->
 ---
-$category: presentation
+$category: media
 formats:
   - websites
-  - email
 teaser:
-  text: FILL THIS IN.
+  text: Displays a cloud-hosted Connatix Player.
 ---
 <!--
 Copyright 2019 The AMP HTML Authors. All Rights Reserved.
@@ -38,41 +37,50 @@ limitations under the License.
 
 # `amp-connatix-player`
 
+Displays a cloud-hosted <a href="https://www.connatix.com/">Connatix Player</a>.
+
 <table>
-  <tr>
-    <td width="40%"><strong>Description</strong></td>
-    <td>FILL THIS IN</td>
-  </tr>
-  <tr>
-    <td width="40%"><strong>Availability</strong></td>
-    <td>FILL THIS IN</td>
-  </tr>
   <tr>
     <td width="40%"><strong>Required Script</strong></td>
     <td><code>&lt;script async custom-element="amp-connatix-player" src="https://cdn.ampproject.org/v0/amp-connatix-player-0.1.js">&lt;/script></code></td>
   </tr>
   <tr>
     <td class="col-fourty"><strong><a href="https://www.ampproject.org/docs/guides/responsive/control_layout.html">Supported Layouts</a></strong></td>
-    <td>FILL THIS IN</td>
-  </tr>
-  <tr>
-    <td width="40%"><strong>Examples</strong></td>
-    <td>FILL THIS IN</td>
+    <td>fill, fixed, fixed-height, flex-item, nodisplay, responsive</td>
   </tr>
 </table>
 
-## Behavior
+[TOC]
 
-FILL THIS IN. What does this extension do?
+## Example
+
+The `width` and `height` attributes determine the aspect ratio of the player embedded in responsive layouts.
+
+Example:
+
+```html
+<amp-connatix-player 
+  data-player-id="03ef71d8-0941-4bff-94f2-74ca3580b497"
+  layout="responsive"
+  width="16"
+  height="9">
+</amp-connatix-player>
+```
 
 ## Attributes
 
-FILL THIS IN. Does this extension allow for properties to configure?
-
 <table>
   <tr>
-    <td width="40%"><strong>data-my-attribute</strong></td>
-    <td>FILL THIS IN. This table <strong>must</strong> be written in HTML.</td>
+    <td width="40%"><strong>data-player-id</strong></td>
+    <td>Connatix player id. This can be found at the Video Players section in the <a href="https://ovp.connatix.com">Connatix management dashboard</a>. (<strong>Required</strong>)</td>
+  </tr>
+  <tr>
+    <td width="40%"><strong>data-media-id</strong></td>
+    <td>Connatix media id. This represents the unique ID of any media in your Library. This can be found at the Library section in the <a href="https://ovp.connatix.com">Connatix management dashboard</a>. (<strong>Optional</strong>)</td>
+  </tr>
+  <tr>
+    <td width="40%"><strong>common attributes</strong></td>
+    <td>This element includes <a href="https://www.ampproject.org/docs/reference/common_attributes">common attributes</a> extended to AMP components.</td>
   </tr>
 </table>
 
