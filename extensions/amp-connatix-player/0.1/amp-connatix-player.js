@@ -41,7 +41,7 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
     this.iframe_ = null;
   }
 
-    /**
+  /**
    * Sends a post message to the iframe where the connatix player
    * is embedded. Used for giving external commands to the player (play/pause etc)
    * @private
@@ -52,6 +52,36 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
       // Send message to the player
       this.iframe_.contentWindow./*OK*/postMessage(command,
           this.iframeDomain_);
+    }
+  }
+
+  /**
+   * Sends a post message to the iframe where the connatix player
+   * is embedded. Used for giving external commands to the player (play/pause etc)
+   * @private
+   */
+  bindToPlayerCommands() {
+    this.win.addEventListener('message', e => {
+      if (!this.iframe_ || e.source !== this.iframe_.contentWindow) {
+        // Ignore messages from other iframes.
+        return;
+      }
+      // Player wants to close because the user interracted on its close button
+      if (e.data === 'cnx_close') {
+        this.destroyPlayerFrame();
+        this.attemptCollapse();
+      }
+    });
+  }
+
+  /**
+   * Removes the player iframe
+   * @private
+   */
+  destroyPlayerFrame() {
+    if (this.iframe_) {
+      removeElement(this.iframe_);
+      this.iframe_ = null;
     }
   }
 
@@ -68,6 +98,8 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
     // Media id is optional
     this.mediaId_ = element.getAttribute('data-media-id') ||
         '';
+
+    this.bindToPlayerCommands();
   }
 
     /**
@@ -111,21 +143,16 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
     return this.loadPromise(iframe);
   }
 
-    /** @override */
-    pauseCallback() {
-      sendCommand('pause');
-    }
-
+  /** @override */
+  pauseCallback() {
+    sendCommand('pause');
+  }
 
   /** @override */
   unlayoutCallback() {
-    if (this.iframe_) {
-      removeElement(this.iframe_);
-      this.iframe_ = null;
-    }
+    this.destroyPlayerFrame();
   }
 }
-
 
 AMP.extension('amp-connatix-player', '0.1', AMP => {
   AMP.registerElement('amp-connatix-player', AmpConnatixPlayer);
