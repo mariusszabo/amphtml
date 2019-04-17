@@ -16,8 +16,10 @@
 
 import {isLayoutSizeDefined} from '../../../src/layout';
 import {addParamsToUrl} from '../../../src/url';
+import {dict} from '../../../src/utils/object';
 import {removeElement} from '../../../src/dom';
 import {userAssert} from '../../../src/log';
+import {getData} from '../../../src/event-helper';
 
 export class AmpConnatixPlayer extends AMP.BaseElement {
 
@@ -67,7 +69,7 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
         return;
       }
       // Player wants to close because the user interracted on its close button
-      if (e.data === 'cnx_close') {
+      if (getData(e) === 'cnx_close') {
         this.destroyPlayerFrame();
         this.attemptCollapse();
       }
@@ -120,11 +122,11 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
   layoutCallback() {
     const {element} = this;
     // Url Params for iframe source
-    const urlParams = {
-      'playerId' : this.playerId_,
-      'mediaId' : this.mediaId_
-    }
-    const iframeUrl = this.iframeDomain_ + '/embed/';
+    const urlParams = dict({
+      'playerId' : this.playerId_ || undefined,
+      'mediaId' : this.mediaId_ || undefined
+    });
+    const iframeUrl = this.iframeDomain_ + '/embed/index.html';
     const src = addParamsToUrl(iframeUrl, urlParams);
 
     const iframe = element.ownerDocument.createElement('iframe');
@@ -151,6 +153,7 @@ export class AmpConnatixPlayer extends AMP.BaseElement {
   /** @override */
   unlayoutCallback() {
     this.destroyPlayerFrame();
+    return true;
   }
 }
 
